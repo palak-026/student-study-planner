@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Progress - Student Study Planner</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #222;
+            transition: 0.3s;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            height: 70px;
+            background: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 50px;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+        }
+
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .theme-btn {
+            border: none;
+            background: #f1f2ff;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 94%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .page-heading {
+            margin-bottom: 30px;
+        }
+
+        .page-heading h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #777;
+        }
+
+        /* SUMMARY CARDS */
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: 0.3s;
+        }
+
+        .summary-card h3 {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 12px;
+        }
+
+        .summary-card h2 {
+            font-size: 30px;
+            color: #4f46e5;
+        }
+
+        /* SUBJECT PROGRESS */
+
+        .progress-section {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            transition: 0.3s;
+        }
+
+        .progress-section h2 {
+            margin-bottom: 25px;
+        }
+
+        .subject-progress {
+            margin-bottom: 22px;
+        }
+
+        .subject-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .subject-header h3 {
+            font-size: 15px;
+        }
+
+        .subject-header span {
+            font-size: 14px;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4f46e5;
+            border-radius: 10px;
+        }
+
+        /* DARK MODE */
+
+        body.dark-mode {
+            background: #121212;
+            color: #f5f5f5;
+        }
+
+        body.dark-mode .navbar {
+            background: #1e1e1e;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        body.dark-mode .nav-links a {
+            color: #ddd;
+        }
+
+        body.dark-mode .nav-links a:hover {
+            color: #8b87ff;
+        }
+
+        body.dark-mode .theme-btn {
+            background: #333;
+        }
+
+        body.dark-mode .page-heading p {
+            color: #aaa;
+        }
+
+        body.dark-mode .summary-card,
+        body.dark-mode .progress-section {
+            background: #1e1e1e;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .summary-card h3 {
+            color: #aaa;
+        }
+
+        body.dark-mode .progress-bar {
+            background: #333;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🎓 Study Planner
+        </div>
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Dashboard
+            </a>
+
+            <a href="subjects.html">
+                Subjects
+            </a>
+
+            <a href="planner.html">
+                Planner
+            </a>
+
+            <a href="progress.html">
+                Progress
+            </a>
+
+            <a href="timer.html">
+                Timer
+            </a>
+
+        </div>
+
+        <button
+            class="theme-btn"
+            id="darkModeBtn"
+            onclick="toggleDarkMode()"
+        >
+            🌙
+        </button>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="container">
+
+        <section class="page-heading">
+
+            <h1>
+                📊 Your Progress
+            </h1>
+
+            <p>
+                Track your study progress and stay consistent.
+            </p>
+
+        </section>
+
+
+        <!-- SUMMARY -->
+
+        <section class="summary-grid">
+
+            <div class="summary-card">
+
+                <h3>
+                    Total Tasks
+                </h3>
+
+                <h2 id="totalTasks">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Completed
+                </h3>
+
+                <h2 id="completedTasks">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Pending
+                </h3>
+
+                <h2 id="pendingTasks">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <h3>
+                    Overall Progress
+                </h3>
+
+                <h2 id="overallProgress">
+                    0%
+                </h2>
+
+            </div>
+
+        </section>
+
+
+        <!-- SUBJECT PROGRESS -->
+
+        <section class="progress-section">
+
+            <h2>
+                📚 Subject Progress
+            </h2>
+
+            <div id="dynamicProgressSubjects"></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+
+        /* =========================
+           SHARED DARK MODE
+        ========================= */
+
+        function toggleDarkMode() {
+
+            let isDark =
+                document.body.classList.toggle("dark-mode");
+
+            localStorage.setItem(
+                "darkMode",
+                isDark ? "enabled" : "disabled"
+            );
+
+            document.getElementById(
+                "darkModeBtn"
+            ).textContent =
+                isDark ? "☀️" : "🌙";
+
+        }
+
+
+        function loadDarkMode() {
+
+            let savedMode =
+                localStorage.getItem("darkMode");
+
+
+            if (
+                savedMode === "enabled" ||
+                savedMode === "true"
+            ) {
+
+                document.body.classList.add("dark-mode");
+
+                document.getElementById(
+                    "darkModeBtn"
+                ).textContent = "☀️";
+
+            }
+
+            else {
+
+                document.body.classList.remove("dark-mode");
+
+                document.getElementById(
+                    "darkModeBtn"
+                ).textContent = "🌙";
+
+            }
+
+        }
+
+
+        /* =========================
+           LOAD SUBJECT PROGRESS
+        ========================= */
+
+        function loadDynamicSubjects() {
+
+            let savedTasks =
+                JSON.parse(
+                    localStorage.getItem("studyTasks")
+                ) || [];
+
+
+            let container =
+                document.getElementById(
+                    "dynamicProgressSubjects"
+                );
+
+
+            container.innerHTML = "";
+
+
+            let defaultSubjects = [
+                "DBMS",
+                "Java",
+                "Web Technology",
+                "Python",
+                "DAA",
+                "Operating System"
+            ];
+
+
+            let dynamicSubjects =
+                savedTasks
+                .map(function(task) {
+
+                    return task.subject
+                        ? task.subject.trim()
+                        : "";
+
+                })
+                .filter(function(subject) {
+
+                    return subject !== "";
+
+                });
+
+
+            let allSubjects =
+                [...defaultSubjects, ...dynamicSubjects];
+
+
+            allSubjects =
+                [...new Set(
+                    allSubjects.map(function(subject) {
+
+                        return subject.trim();
+
+                    })
+                )];
+
+
+            allSubjects.forEach(function(subject) {
+
+                let subjectTasks =
+                    savedTasks.filter(function(task) {
+
+                        return task.subject &&
+                            task.subject.trim().toLowerCase() ===
+                            subject.toLowerCase();
+
+                    });
+
+
+                let total =
+                    subjectTasks.length;
+
+
+                let completed =
+                    subjectTasks.filter(function(task) {
+
+                        return task.completed === true ||
+                               task.completed === "true";
+
+                    }).length;
+
+
+                let progress = 0;
+
+
+                if (total > 0) {
+
+                    progress =
+                        Math.round(
+                            (completed / total) * 100
+                        );
+
+                }
+
+
+                let subjectDiv =
+                    document.createElement("div");
+
+
+                subjectDiv.className =
+                    "subject-progress";
+
+
+                subjectDiv.innerHTML = `
+
+                    <div class="subject-header">
+
+                        <h3>
+                            ${subject}
+                        </h3>
+
+                        <span>
+                            ${progress}%
+                        </span>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width: ${progress}%"
+                        ></div>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    subjectDiv
+                );
+
+            });
+
+        }
+
+
+        /* =========================
+           UPDATE SUMMARY
+        ========================= */
+
+        function updateSummary() {
+
+            let savedTasks =
+                JSON.parse(
+                    localStorage.getItem("studyTasks")
+                ) || [];
+
+
+            let total =
+                savedTasks.length;
+
+
+            let completed =
+                savedTasks.filter(function(task) {
+
+                    return task.completed === true ||
+                           task.completed === "true";
+
+                }).length;
+
+
+            let pending =
+                total - completed;
+
+
+            let percentage = 0;
+
+
+            if (total > 0) {
+
+                percentage =
+                    Math.round(
+                        (completed / total) * 100
+                    );
+
+            }
+
+
+            document.getElementById(
+                "totalTasks"
+            ).textContent =
+                total;
+
+
+            document.getElementById(
+                "completedTasks"
+            ).textContent =
+                completed;
+
+
+            document.getElementById(
+                "pendingTasks"
+            ).textContent =
+                pending;
+
+
+            document.getElementById(
+                "overallProgress"
+            ).textContent =
+                percentage + "%";
+
+        }
+
+
+        /* =========================
+           PAGE LOAD
+        ========================= */
+
+        window.onload = function() {
+
+            loadDarkMode();
+
+            loadDynamicSubjects();
+
+            updateSummary();
+
+        };
+
+
+    </script>
+
+
+</body>
+
+</html>
